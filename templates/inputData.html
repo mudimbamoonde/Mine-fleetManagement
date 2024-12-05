@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="pagetitle">
+    <h1>Data Management</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active">Data</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+    <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+            <div class="row">
+
+
+                <!-- Recent Sales -->
+                <div class="col-12">
+                    <div class="card recent-sales overflow-auto">
+
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#verticalycentered">Add Data</a></h5>
+
+                            <table class="table table-borderless datatable">
+                                <thead>
+                                    <tr>
+                                        <!-- Planned Inputs	Actual Inputs	Utilisation
+ -->
+                                        <th scope="col">#</th>
+                                        <th scope="col">Planned Inputs</th>
+                                        <th scope="col">Actual Inputs</th>
+                                        <th scope="col">Utilisation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- {% for data in vih %}
+                  <tr>
+                    <th scope="row"><a href="#">{{ data[0] }}</a></th>
+                    <td>{{ data[1] }}</td>
+                    <td><a href="#" class="text-primary">{{ data[2] }}</a></td>
+                    <td>{{ data[3] }}</td>
+                    <td><span class="badge bg-success">Approved</span></td>
+                  </tr>
+                  {% endfor %} -->
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div><!-- End Recent Sales -->
+
+
+                <!-- Vertically centered Modal -->
+                <div class="modal fade" id="verticalycentered" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Capture Data</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card-body">
+                                    <!-- <h5 class="card-title">Mine Data</h5> -->
+                                    <!-- Vertical Form -->
+                                    <form class="row g-7" method="post" action="/vehicle/data">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <h4>Planned Inputs</h4>
+                                                        </td>
+                                                    <th>
+                                                        <h4>Actual Inputs</h4>
+                                                        </td>
+                                                </tr>
+                                            </thead>
+                                            <tr>
+                                                <th>Trucks: <input type="text" class="form-control" id="truck1"
+                                                        name="truck1"></th>
+                                                <th>Trucks: <input type="text" class="form-control" id="truck2"
+                                                        name="truck2"></th>
+                                            </tr>
+                                            <tr>
+                                                <th>Repairs: <input type="text" class="form-control" id="repairs1"
+                                                        name="repairs1"></th>
+                                                <th>Repairs: <input type="text" class="form-control" id="repairs1"
+                                                        name="repairs1"></th>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Excavators: <input type="text" class="form-control" id="excavators1"
+                                                        name="excavators1"></th>
+                                                <th>Excavators: <input type="text" class="form-control" id="excavators2"
+                                                        name="excavators2"></th>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Ore Volume: <input type="text" class="form-control" id="ore1"
+                                                        name="ore1"></th>
+                                                <th>Ore Volume: <input type="text" class="form-control" id="ore2"
+                                                        name="ore2"></th>
+
+                                            </tr>
+
+                                            <tr>
+                                                <th>Water vol: <input type="text" class="form-control" id="wvol1"
+                                                        name="wvol1"></th>
+                                                <th>Water vol: <input type="text" class="form-control" id="wvol2"
+                                                        name="wvol1"></th>
+
+                                            </tr>
+
+                                            <tr>
+                                                <th>Road Status: <input type="text" class="form-control" id="rst1"
+                                                        name="rst1"></th>
+                                                <th>Road Status: <input type="text" class="form-control" id="rst2"
+                                                        name="rst2"></th>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Cycle Time: <input type="text" class="form-control" id="cytime1"
+                                                        name="cytime1"></th>
+                                                <th>Cycle Time: <input type="text" class="form-control" id="cytime2"
+                                                        name="cytime2"></th>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Shift time: <input type="text" class="form-control" id="shift1"
+                                                        name="shift1"></td>
+                                                <th>Shift Time: <input type="text" class="form-control" id="shift2"
+                                                        name="shift2"></th>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Meal Time: <input type="text" class="form-control" id="mealtime1"
+                                                        name="mealtime1"></th>
+                                                <th>Meal Time: <input type="text" class="form-control" id="mealtime2"
+                                                        name="mealtime2"></th>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Drivers: <input type="text" class="form-control" id="driver1"
+                                                        name="driver1"></th>
+                                                <th>Driver: <input type="text" class="form-control" id="driver2"
+                                                        name="driver2"></th>
+                                            </tr>
+
+                                        </table>
+
+                                
+                                        <button type="submit" class="btn btn-info text-white">Save changes</button>
+                                    </form><!-- Vertical Form -->
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Vertically centered Modal-->
+
+            </div>
+        </div><!-- End Left side columns -->
+
+    </div>
+</section>
+
+
+{% endblock %}

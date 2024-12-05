@@ -1,0 +1,292 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="pagetitle">
+    <h1>Load and Haul Management</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active">Actual Hourly Tonnages</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+    <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+            <div class="row">
+                <!-- Recent Sales -->
+                <div class="col-12">
+                    <div class="card recent-sales overflow-auto">
+
+                        <div class="card-body">
+                            <h5 class="card-title"> Actual Hourly <span>| ORE </span></h5>
+                            {% if error %}
+                            <!-- <span class="bg bg-danger text-white">{{ error}}</span> -->
+                            <div class="bg bg-danger"><span class="text-white">{{ error}}</span></div>
+                            {% endif %}
+
+                            {% if msg %}
+                            <div class="bg bg-success"><span class="text-white">{{ msg}}</span></div>
+                            {% endif %}
+                            <br>
+                            <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#verticalycentered">Add Actual Hourly Tonnages</a>
+
+
+
+                            <table class="table  datatable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Hour</th>
+                                        <th scope="col">Volume</th>
+                                        <th scope="col">Shift</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for data in hours %}
+                                    <tr>
+                                        <th scope="row"><a href="#">{{ data[0] }}</a></th>
+                                        <td>{{ data[1]}} - {{ data[2] }}</td>
+                                        <td>{{ data[3] }}</td>
+                                        <td>{{ data[4] }}</td>
+
+                                    </tr>
+
+                                    {% endfor %}
+
+                                    <tr>
+
+                                        <td></td>
+                                        <th>Total</th>
+                                        <td>{{ total }}</td>
+                                        <td></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div><!-- End Recent Sales -->
+
+
+                <!-- Vertically centered Modal -->
+                <div class="modal fade" id="verticalycentered" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Create Actual Hourly Tonnages</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card-body">
+                                    <h5 class="card-title">Hourly Tonnages</h5>
+
+                                    <!-- make, model, year -->
+                                    <!-- Vertical Form -->
+                                    <form class="row g-3" method="post" action="/hourly">
+                                        <div class="col-12">
+                                            <label for="actualHourfrom" class="form-label">Actual Hour From</label>
+                                            <input type="time" class="form-control" id="actualHourfrom"
+                                                name="actualHourfrom">
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="actualHourto" class="form-label">Actual Hour To</label>
+                                            <input type="time" class="form-control" id="actualHourto"
+                                                name="actualHourto">
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="actual_volume" class="form-label">Actual Volume</label>
+                                            <input type="number" class="form-control" id="actual_volume"
+                                                name="actual_volume">
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="model" class="form-label">Shift</label>
+                                            <select class="form-control" name="shift">
+                                                {% for data in shift %}
+                                                <option value="{{ data[0] }},Morning">Morning</option>
+                                                <option value="{{ data[0] }},Afternoon">Afternoon</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-success">Save changes</button>
+                                    </form><!-- Vertical Form -->
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Vertically centered Modal-->
+
+            </div>
+        </div><!-- End Left side columns -->
+
+        <script>
+            function update() {
+                var getMorning = document.getElementsByName("Morning");
+                var getAfternoon = document.getElementsByName("Afternoon");
+
+                document.getElementById("target").value = getAfternoon + getMorning;
+                console.log(getAfternoon)
+                console.log(getMorning)
+            }
+        </script>
+
+
+
+    </div>
+
+    <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+            <div class="row">
+                <!-- Recent Sales -->
+                <div class="col-12">
+                    <div class="card recent-sales overflow-auto">
+
+                        <div class="card-body">
+                            <h5 class="card-title"> Actual Hourly <span>| Wastage </span></h5>
+                            {% if error %}
+                            <!-- <span class="bg bg-danger text-white">{{ error}}</span> -->
+                            <div class="bg bg-danger"><span class="text-white">{{ error}}</span></div>
+                            {% endif %}
+
+                            {% if msg %}
+                            <div class="bg bg-success"><span class="text-white">{{ msg}}</span></div>
+                            {% endif %}
+                            <br>
+                            <a href="#" class="btn btn-warning btn-sm text-white" data-bs-toggle="modal"
+                                data-bs-target="#verticalyWastecentered">Add Actual Hourly Waste</a>
+
+
+
+                            <table class="table  datatable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Hour</th>
+                                        <th scope="col">Volume</th>
+                                        <th scope="col">Shift</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for data in waste %}
+                                    <tr>
+                                        <th scope="row">{{ data[0] }}</th>
+                                        <td>{{ data[1]}} - {{ data[2] }}</td>
+                                        <td>{{ data[3] }}</td>
+                                        <td>{{ data[4] }}</td>
+
+                                    </tr>
+
+                                    {% endfor %}
+
+                                    <tr>
+
+                                        <td></td>
+                                        <th>Total</th>
+                                        <td>{{ total_waste }}</td>
+                                        <td></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div><!-- End Recent Sales -->
+
+
+                <!-- Vertically centered Modal -->
+                <div class="modal fade" id="verticalyWastecentered" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Create Actual Hourly Waste</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card-body">
+                                    <h5 class="card-title">Hourly Waste</h5>
+
+                                    <!-- make, model, year -->
+                                    <!-- Vertical Form -->
+                                    <form class="row g-3" method="post" action="/waste">
+                                        <div class="col-12">
+                                            <label for="actualHourfrom" class="form-label">Actual Hour From</label>
+                                            <input type="time" class="form-control" id="actualHourfrom"
+                                                name="actualHourfrom">
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="actualHourto" class="form-label">Actual Hour To</label>
+                                            <input type="time" class="form-control" id="actualHourto"
+                                                name="actualHourto">
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="actual_volume" class="form-label">Actual Volume</label>
+                                            <input type="number" class="form-control" id="actual_volume"
+                                                name="actual_volume">
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="model" class="form-label">Shift</label>
+                                            <select class="form-control" name="shift">
+                                                {% for data in shift %}
+                                                <option value="{{ data[0] }},Morning">Morning</option>
+                                                <option value="{{ data[0] }},Afternoon">Afternoon</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-warning">Save changes</button>
+                                    </form><!-- Vertical Form -->
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Vertically centered Modal-->
+
+            </div>
+        </div><!-- End Left side columns -->
+
+        <script>
+            function update() {
+                var getMorning = document.getElementsByName("Morning");
+                var getAfternoon = document.getElementsByName("Afternoon");
+
+                document.getElementById("target").value = getAfternoon + getMorning;
+                console.log(getAfternoon)
+                console.log(getMorning)
+            }
+        </script>
+
+
+
+    </div>
+</section>
+
+
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="pagetitle">
+  <h1>Load and Haul Management</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item active">Shift Management</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+  <div class="row">
+
+    <!-- Left side columns -->
+    <div class="col-lg-8">
+      <div class="row">
+
+
+        <!-- Recent Sales -->
+        <div class="col-12">
+          <div class="card recent-sales overflow-auto">
+
+        
+
+            <div class="card-body">
+              <h5 class="card-title"><a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                  data-bs-target="#verticalycentered">Add Shift</a></h5>
+
+                  {% if error %}
+                      <span class="bg bg-danger">{{ error}}</span>
+                  {% endif %}
+
+                  {% if msg %}
+                  <span class="bg bg-success">{{ msg}}</span>
+              {% endif %}
+              <table class="table table-borderless datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Morning</th>
+                    <th scope="col">Afternoon</th>
+                    <th scope="col">Target</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for data in shift %}
+                  <tr>
+                    <th scope="row"><a href="#">{{ data[0] }}</a></th>
+                    <td>{{ data[1] }}</td>
+                    <td>{{ data[2] }}</td>
+                    <td>{{ data[3] }}</td>
+                    <td><span class="badge bg-success">{{ data[4] }}</span></td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+
+          </div>
+        </div><!-- End Recent Sales -->
+
+
+        <!-- Vertically centered Modal -->
+        <div class="modal fade" id="verticalycentered" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Create Shift Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="card-body">
+                  <h5 class="card-title">Shift</h5>
+
+                  <!-- make, model, year -->
+                  <!-- Vertical Form -->
+                  <form class="row g-3" method="post" action="/shift">
+                    <div class="col-12">
+                      <label for="equip" class="form-label">Morning</label>
+                      <input type="number" class="form-control"  id="Morning" name="Morning">
+                    </div>
+
+                    <div class="col-12">
+                        <label for="equip" class="form-label">Afternoon</label>
+                        <input type="number" class="form-control"  id="Afternoon" name="Afternoon">
+                      </div>
+                    <div class="col-12">
+                      <label for="model" class="form-label">Target</label>
+                      <input type="text" class="form-control" id="target" name="target">
+                    </div>
+                
+                    <button type="submit" class="btn btn-warning">Save changes</button>
+                  </form><!-- Vertical Form -->
+
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+              </div>
+            </div>
+          </div>
+        </div><!-- End Vertically centered Modal-->
+
+      </div>
+    </div><!-- End Left side columns -->
+
+    <script >
+        function update(){
+            var  getMorning = document.getElementsByName("Morning");
+            var  getAfternoon = document.getElementsByName("Afternoon");
+
+            document.getElementById("target").value = getAfternoon + getMorning;
+            console.log(getAfternoon)
+            console.log(getMorning)
+        }
+    </script>
+
+
+ 
+  </div>
+</section>
+
+
+{% endblock %}
