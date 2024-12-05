@@ -11,7 +11,7 @@ app = Flask(__name__,static_url_path='/static')
 @app.route("/")
 def dashboard():
     
-    return render_template("index.html",waste = get_hourly_waste(),hours =get_hourly(), shift=get_Shifts(),data=v_status())
+    return render_template("index.html",waste = get_hourly_waste(),hours =get_hourly(),maintenance=get_maintenance_vehicle(), shift=get_Shifts(),data=v_status())
 
 
 
@@ -106,7 +106,10 @@ def drill_blast():
                 blastedVolume = request.form["blastedVolume"]
                 numberOfDaysRequired = request.form["numberOfDaysRequired"]
                 actual_volumeMovedPayDay = request.form["actual_volumeMovedPayDay"]
-            
+                # numberOfDaysRequireds = 0
+                
+                # if get_vehicle_registered()[1] == "Tiper":
+                #     numberOfDaysRequireds =  blastedVolume / get_vehicle_registered()[4]
                 
                 kpi = (blastedVolume,numberOfDaysRequired,actual_volumeMovedPayDay)
                 return insert_blasted_kpi(kpi)
@@ -266,7 +269,8 @@ def get_maintenance_count_vehicle(status):
       try:
         conn = connect_db()  # Assuming `connect_db` is defined elsewhere
         cursor = conn.cursor()
-        cursor.execute(f"SELECT count(*) AS Ready FROM equipment  WHERE status ='{status}' ")
+        # cursor.execute(f"SELECT count(*) AS Ready FROM equipment  WHERE status ='{status}' ")
+        cursor.execute(f"SELECT count(*) FROM mobile_epq INNER JOIN equipment as e ON e.equipment = mobile_epq.equipment WHERE e.equipment='Tiper' AND e.status='{status}'")
         data = cursor.fetchall()  # Fetch all rows from the query result
         
       except Exception as e:
@@ -293,7 +297,7 @@ def get_maintenance_vehicle():
       try:
         conn = connect_db()  # Assuming `connect_db` is defined elsewhere
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM equipment order by id desc")
+        cursor.execute("SELECT * FROM mobile_epq INNER JOIN equipment as e ON e.equipment = mobile_epq.equipment WHERE e.equipment !='Tiper' order by mobile_epq.id desc")
         data = cursor.fetchall()  # Fetch all rows from the query result
       except Exception as e:
         print(f"Error fetching vehicle data: {e}")

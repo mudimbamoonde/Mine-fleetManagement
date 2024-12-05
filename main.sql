@@ -84,6 +84,15 @@ CREATE TABLE drill_blast(
   modified_at datetime
 )engine = innodb;
 
+
+--Database Triggers for drill blast table
+CREATE TRIGGER numberOfDaysRequired_to_deplete_material BEFORE INSERT ON drill_blast
+FOR EACH ROW SET @bl = NEW.blastedVolume / 20*(SELECT quantity FROM mobile_epq WHERE equipment='Tiper')
+
+
+SELECT quantity FROM mobile_epq INNER JOIN equipment as e ON e.equipment = mobile_epq.equipment WHERE e.equipment='Tiper' AND e.Status='Ready';
+
+SELECT*FROM equipment;
 -- 1. Crusher Tonnages
 CREATE TABLE Crushertonnages(
   id int(10) auto_increment primary key not null,

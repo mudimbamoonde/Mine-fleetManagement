@@ -9,7 +9,7 @@
 # config.py
 
 # Google Maps API Key for geolocation
-GOOGLE_MAPS_API_KEY = 'AIzaSyD7G9q4lOY7vsdd85vSq-XzYncMSB52ff4'
+GOOGLE_MAPS_API_KEY = '<>'
 
 # Database configuration
 DB_HOST = 'localhost'

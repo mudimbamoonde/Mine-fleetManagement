@@ -44,6 +44,7 @@
                     <th scope="col">Next Due</th>
                     <th scope="col">Equipment No</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -65,6 +66,9 @@
                     {% if data[6]=="Shift Change" %}
                     <td><span class="badge bg-warning">{{ data[6] }}</span></td>
                     {% endif %}
+                   
+                    <td><a href="/edit/<int:v_id>" class="btn btn-secondary"><span class="bi bi-pencil"></span></a> | <a href="#" class="btn btn-danger"><span class="bi bi-trash"></span></a></td>
+                    
                   </tr>
                   {% endfor %}
 
