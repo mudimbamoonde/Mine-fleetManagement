@@ -43,6 +43,7 @@
                     <th scope="col">Afternoon</th>
                     <th scope="col">Target</th>
                     <th scope="col">Total</th>
+                    <th scope="col">Control</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -53,7 +54,9 @@
                     <td>{{ data[2] }}</td>
                     <td>{{ data[3] }}</td>
                     <td><span class="badge bg-success">{{ data[4] }}</span></td>
-                  </tr>
+                    <td><a href="/shift/edit/{{data[0]}}" class="btn btn-secondary"><span class="bi bi-pencil"></span></a> | <a href="/shift/edit/{{data[0] }}" class="btn btn-danger"><span class="bi bi-trash"></span></a></td>
+                    <!-- <int:v_id> -->  
+                </tr>
                   {% endfor %}
 
                 </tbody>
@@ -78,6 +81,27 @@
                   <h5 class="card-title">Shift</h5>
 
                   <!-- make, model, year -->
+
+                  {% if shift_edit %}
+                  <form class="row g-3" method="post" action="/shift/{{ shift_edit[0]}}">
+                    <div class="col-12">
+                      <label for="equip" class="form-label">Morning</label>
+                      <input type="number" class="form-control" value="{{ shift_edit[1]}}" id="Morning" name="Morning">
+                    </div>
+
+                    <div class="col-12">
+                        <label for="equip" class="form-label">Afternoon</label>
+                        <input type="number" class="form-control" value="{{ shift_edit[2]}}" id="Afternoon" name="Afternoon">
+                      </div>
+                    <div class="col-12">
+                      <label for="model" class="form-label">Target</label>
+                      <input type="text" class="form-control" value="{{ shift_edit[3]}}" id="target" name="target">
+                    </div>
+                
+                    <button type="submit" class="btn btn-warning">Save changes</button>
+                  </form><!-- Vertical Form -->
+                  {% endif %}
+                  
                   <!-- Vertical Form -->
                   <form class="row g-3" method="post" action="/shift">
                     <div class="col-12">

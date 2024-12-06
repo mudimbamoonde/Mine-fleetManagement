@@ -36,6 +36,8 @@
                     <th scope="col">Model</th>
                     <th scope="col">Specification</th>
                     <th scope="col">Quantity</th>
+                    <th scope="col">Control</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
@@ -46,6 +48,8 @@
                     <td><a href="#" class="text-primary">{{ data[2] }}</a></td>
                     <td>{{ data[3] }}</td>
                     <td><span class="badge bg-success">{{ data[4] }}</span></td>
+                    <td><a href="/vehicle/edit/{{data[0]}}" class="btn btn-secondary"><span class="bi bi-pencil"></span></a> | <a href="/vehicle/edit/{{data[0] }}" class="btn btn-danger"><span class="bi bi-trash"></span></a></td>
+                
                   </tr>
                   {% endfor %}
 

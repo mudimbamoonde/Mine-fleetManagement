@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="pagetitle">
+  <h1>Load and Haul Management</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item active">Hourly Management</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+  <div class="row">
+
+    <!-- Left side columns -->
+    <div class="col-lg-8">
+      <div class="row">
+        <!-- Recent Sales -->
+        <div class="col-12">
+          <div class="card recent-sales overflow-auto">        
+            <div class="card-body">
+              <h5 class="card-title">Hourly Shift</h5>
+
+                  {% if error %}
+                      <span class="bg bg-danger">{{ error}}</span>
+                  {% endif %}
+
+                  {% if msg %}
+                  <span class="bg bg-success">{{ msg}}</span>
+              {% endif %}
+             
+            <!-- id | actual_hour_from | actual_hour_to | actual_volume | ShiftName | shifID | created_at          | modified_at -->
+            <form class="row g-3" method="post" action="/hourly/edit/{{ _edit[0][0] }}">
+                <div class="col-12">
+                    <label for="actualHourfrom" class="form-label">Actual Hour From</label>
+                    <input type="text" class="form-control" id="actualHourfrom"
+                        name="actualHourfrom" value="{{ _edit[0][1] }}">
+                </div>
+
+                <div class="col-12">
+                    <label for="actualHourto" class="form-label">Actual Hour To</label>
+                    <input type="text" class="form-control" value="{{ _edit[0][2] }}" id="actualHourto"
+                        name="actualHourto">
+                </div>
+
+                <div class="col-12">
+                    <label for="actual_volume" class="form-label">Actual Volume</label>
+                    <input type="number" class="form-control" value="{{ _edit[0][3] }}" id="actual_volume"
+                        name="actual_volume">
+                </div>
+                <div class="col-12">
+                    <label for="model" class="form-label">Shift</label>
+                    <select class="form-control" name="shift">
+                        <option value="{{ _edit[0][5] }},{{ _edit[0][4] }}">{{ _edit[0][4] }}</option>
+                        {% for data in shift %}
+                        <option value="{{ data[0] }},Morning">Morning</option>
+                        <option value="{{ data[0] }},Afternoon">Afternoon</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success">Save changes</button>
+            </form><!-- Vertical Form -->
+              
+            </div>
+
+          </div>
+        </div><!-- End Recent Sales -->
+
+      </div>
+    </div><!-- End Left side columns -->
+
+ 
+  </div>
+</section>
+
+
+{% endblock %}

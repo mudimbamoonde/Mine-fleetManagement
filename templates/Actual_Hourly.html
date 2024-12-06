@@ -43,6 +43,7 @@
                                         <th scope="col">Hour</th>
                                         <th scope="col">Volume</th>
                                         <th scope="col">Shift</th>
+                                        <th scope="col">Control</th>
 
                                     </tr>
                                 </thead>
@@ -54,6 +55,8 @@
                                         <td>{{ data[1]}} - {{ data[2] }}</td>
                                         <td>{{ data[3] }}</td>
                                         <td>{{ data[4] }}</td>
+                    <td><a href="/hourly/edit/{{data[0]}}" class="btn btn-secondary"><span class="bi bi-pencil"></span></a> | <a href="/shift/edit/{{data[0] }}" class="btn btn-danger"><span class="bi bi-trash"></span></a></td>
+
 
                                     </tr>
 
@@ -182,6 +185,7 @@
                                         <th scope="col">Hour</th>
                                         <th scope="col">Volume</th>
                                         <th scope="col">Shift</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -191,6 +195,11 @@
                                         <td>{{ data[1]}} - {{ data[2] }}</td>
                                         <td>{{ data[3] }}</td>
                                         <td>{{ data[4] }}</td>
+                                        <td><a href="/shift/edit/{{data[0]}}" class="btn btn-secondary"><span
+                                                    class="bi bi-pencil"></span></a> | <a
+                                                href="/shift/edit/{{data[0] }}" class="btn btn-danger"><span
+                                                    class="bi bi-trash"></span></a></td>
+
 
                                     </tr>
 
