@@ -33,6 +33,12 @@ def add_vehicle():
         return insert_vehicle(vr)
     except Exception as e:
         return f"Error Processing this form: {e}"
+
+# /vehicle/edit/{{data[0]}}
+@app.route("/vehicle/edit/<int:id>")
+def edit_vehicle(id):
+       return render_template("edit_vehicle.html",_edit=get_vehicle_registered(id))
+
     
     
 # Shifts

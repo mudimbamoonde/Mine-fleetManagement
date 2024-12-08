@@ -1,15 +1,20 @@
 from flask import render_template,request,redirect,url_for
 from app import app,connect_db
 
-def get_vehicle_registered():
+def get_vehicle_registered(id=None):
     """Fetch vehicle data from the database."""
     data = []
     conn = None
     try:
         conn = connect_db()  # Assuming `connect_db` is defined elsewhere
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM mobile_epq order by id desc")
-        data = cursor.fetchall()  # Fetch all rows from the query result
+        if id is None:
+            cursor.execute("SELECT * FROM mobile_epq order by id desc")
+            data = cursor.fetchall()  # Fetch all rows from the query result
+        else:
+            cursor.execute(f"SELECT * FROM mobile_epq WHERE id='{id}'")
+            data = cursor.fetchall()
+          
     except Exception as e:
         print(f"Error fetching vehicle data: {e}")
     finally:
@@ -73,17 +78,21 @@ def get_hourly(id=None):
     return data
 
 
-def get_hourly_waste():
+def get_hourly_waste(id=None):
     """Fetch Hourly WASTE from the database."""
     data = []
     conn = None
     try:
         conn = connect_db()  # Assuming `connect_db` is defined elsewhere
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM hourly_waste WHERE DATE(created_at) = CURDATE()  order by id desc")
-        data = cursor.fetchall()  # Fetch all rows from the query result
+        if id is None:
+            cursor.execute("SELECT * FROM hourly_waste WHERE DATE(created_at) = CURDATE()  order by id desc")
+            data = cursor.fetchall()  # Fetch all rows from the query result
+        else:
+            cursor.execute(f"SELECT * FROM hourly_waste WHERE id='{id}'")
+            data = cursor.fetchall()
     except Exception as e:
-        print(f"Error fetching hourly_Ore data: {e}")
+        return (f"Error fetching hourly_waste data: {e}")
     finally:
         if cursor:
             cursor.close()  # Close the cursor
@@ -92,17 +101,22 @@ def get_hourly_waste():
     return data
 
 
-def get_drillblast():
+def get_drillblast(id=None):
     """Fetch drillblast  from the database."""
     data = []
     conn = None
     try:
         conn = connect_db()  # Assuming `connect_db` is defined elsewhere
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM drill_blast   order by id desc")
-        data = cursor.fetchall()  # Fetch all rows from the query result
+        if id is None:
+            cursor.execute("SELECT * FROM drill_blast   order by id desc")
+            data = cursor.fetchall()  # Fetch all rows from the query result
+        else:
+            cursor.execute(f"SELECT * FROM drill_blast WHERE id='{id}' ")
+            data = cursor.fetchall()  # Fetch all rows from the query result
+    
     except Exception as e:
-        print(f"Error fetching Drill and blast KPI data: {e}")
+        return (f"Error fetching Drill and blast KPI data: {e}")
     finally:
         if cursor:
             cursor.close()  # Close the cursor

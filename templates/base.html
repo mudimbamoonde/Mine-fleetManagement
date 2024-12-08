@@ -281,7 +281,7 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Equipment Management</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-tools"></i><span>Equipment Management</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -305,7 +305,7 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#lhm-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-book"></i><span>Load and Haul Management</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-minecart-loaded"></i><span>Load and Haul Management</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="lhm-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -324,11 +324,30 @@
 
 
       <li class="nav-item">
-        <a class="nav-link" href="/drillblast">
-          <i class="bi bi-plus"></i>
+        <a class="nav-link collapsed" href="/drillblast">
+          <i class="bi bi-gear"></i>
           <span>Drill Blast</span>
         </a>
       </li> 
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#report-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal"></i><span>Report</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="report-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="/shift">
+              <i class="bi bi-circle"></i><span>Shift Management</span>
+            </a>
+          </li>
+          <li>
+            <a href="/hourly">
+              <i class="bi bi-circle"></i><span>Actual Hourly Tonnage</span>
+            </a>
+          </li>
+      
+        </ul>
+      </li><!-- End Forms Nav -->
   
     </ul>
 
@@ -336,7 +355,6 @@
 
   <main id="main" class="main">
     {% block content %} {% endblock %}
-   
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
@@ -360,9 +378,7 @@
   <script src="{{ url_for('static', filename='vendor/simple-datatables/simple-datatables.js') }}"></script>
   <script src="{{ url_for('static', filename='vendor/php-email-form/validate.js') }}"></script>
 
-  
-
-  <!-- Template Main JS File -->
+  <!--Main JS File -->
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 
