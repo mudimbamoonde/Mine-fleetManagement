@@ -232,6 +232,28 @@ def login():
     return render_template("login.html")
 
 
+@app.route("/user/register")
+def registerUser():
+    return render_template("register_user.html")
+
+@app.route("/user/register",methods=["POST","GET"])
+def save_users():
+   import hashlib
+   try:
+        fname = request.form["fname"]
+        role = request.form["role"]
+        username = request.form["username"]
+        password = hashlib.md5(request.form["password"].encode('utf-8')).hexdigest()
+        user = (fname,role,username,password)
+        return insert_user(user)
+   except Exception as e:
+       return render_template("users.html",user=get_users(),error=e)
+   
+
+
+@app.route("/user")
+def users():
+    return render_template("users.html",user=get_users())
 
 
 @app.route("/json")

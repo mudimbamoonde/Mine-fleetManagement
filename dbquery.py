@@ -101,6 +101,9 @@ def get_hourly_waste(id=None):
     return data
 
 
+
+
+# Drill and Blast
 def get_drillblast(id=None):
     """Fetch drillblast  from the database."""
     data = []
@@ -123,6 +126,8 @@ def get_drillblast(id=None):
         if conn:
             conn.close()   # Close the connection
     return data
+
+
 
 # Count Ready Tiper Vehicles
 def get_maintenance_count_vehicle(status):
@@ -171,7 +176,31 @@ def get_maintenance_vehicle():
             conn.close()   # Close the connection
       return data
 
-    
+
+# Get users
+def get_users(id=None):
+    """Fetch Users from the database."""
+    data = []
+    conn = None
+    try:
+        conn = connect_db()  # Assuming `connect_db` is defined elsewhere
+        cursor = conn.cursor()
+        if id is None:
+            cursor.execute("SELECT * FROM users order by id desc")
+            data = cursor.fetchall()  # Fetch all rows from the query result
+        else:
+            cursor.execute(f"SELECT * FROM users WHERE id='{id}'")
+            data = cursor.fetchall()
+    except Exception as e:
+        return (f"Error fetching Users data: {e}")
+    finally:
+        if cursor:
+            cursor.close()  # Close the cursor
+        if conn:
+            conn.close()   # Close the connection
+    return data
+
+    # VEHICLE information insertion 
 def insert_vehicle(vehicle_data):
     """
     Insert a new vehicle into the database.
@@ -323,6 +352,32 @@ def insert_blasted_kpi(blastKPI,value=0,id=None):
         return render_template("drillblast.html",drill=get_drillblast(), msg=f" drillblast Created successfully.")
     except Exception as e:
         return render_template("drillblast.html",error=f"Error inserting drillblast: {e}")
+    finally:
+        if cursor:
+            cursor.close()  # Close the cursor
+        if conn:
+            conn.close()   # Close the connection 
+
+# Insert Users With Value : 0->Insert,1->update
+def insert_user(user,value=0,id=None):
+    """
+    Insert a insert_user  into the database.
+    
+    """
+    conn = None
+    try:
+        conn = connect_db()  # Assuming `connect_db` is defined elsewhere
+        cursor = conn.cursor()
+        if value == 0:
+            sql = "INSERT INTO users (fullname,role, username,password,created_at,modified_at) VALUES (%s, %s,%s,%s,now(),now())"
+            cursor.execute(sql, user)  # Execute the SQL with the provided data
+        elif value==1:
+            sql = f"UPDATE users SET fullname=%s,role=%s, username=%s,modified_at=now() WHERE id='{id}'"
+            cursor.execute(sql, user)  # Execute the SQL with the provided data
+        conn.commit()  # Commit the transaction
+        return render_template("users.html", msg=f"{user[0]} Created successfully.")
+    except Exception as e:
+        return render_template("users.html",error=f"Error inserting drillblast: {e}")
     finally:
         if cursor:
             cursor.close()  # Close the cursor

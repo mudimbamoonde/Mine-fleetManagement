@@ -85,6 +85,17 @@ CREATE TABLE drill_blast(
 )engine = innodb;
 
 
+-- Accounts
+CREATE TABLE users(
+  id int(10) primary key auto_increment,
+  fullname varchar(100) not null,
+  role enum("admin","dispatch") not null,
+  username varchar(100) not null,
+  password text not null,
+  created_at datetime,
+  modified_at datetime
+)engine=innodb;
+
 --Database Triggers for drill blast table
 CREATE TRIGGER numberOfDaysRequired_to_deplete_material BEFORE INSERT ON drill_blast
 FOR EACH ROW SET @bl = NEW.blastedVolume / 20*(SELECT quantity FROM mobile_epq WHERE equipment='Tiper')
