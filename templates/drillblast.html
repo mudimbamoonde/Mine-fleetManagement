@@ -45,6 +45,7 @@
                                         <th scope="col">Blasted Volume</th>
                                         <th scope="col">Number of Days Required to Deplete the Material</th>
                                         <th scope="col">Actual Volume Moved Per Day</th>
+                                        <th scope="col">Control</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,6 +55,7 @@
                                         <td>{{ data[1] }}</td>
                                         <td>{{ data[2] }}</td>
                                         <td>{{ data[3] }}</td>
+                                        <td><a href="/drillblast/edit/{{data[0]}}" class="btn btn-secondary"><span class="bi bi-pencil"></span></a> | <a href="/shift/edit/{{data[0] }}" class="btn btn-danger"><span class="bi bi-trash"></span></a></td>
 
                                     </tr>
 

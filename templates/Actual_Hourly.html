@@ -164,15 +164,7 @@
 
                         <div class="card-body">
                             <h5 class="card-title"> Actual Hourly <span>| Wastage </span></h5>
-                            {% if error %}
-                            <!-- <span class="bg bg-danger text-white">{{ error}}</span> -->
-                            <div class="bg bg-danger"><span class="text-white">{{ error}}</span></div>
-                            {% endif %}
-
-                            {% if msg %}
-                            <div class="bg bg-success"><span class="text-white">{{ msg}}</span></div>
-                            {% endif %}
-                            <br>
+    
                             <a href="#" class="btn btn-warning btn-sm text-white" data-bs-toggle="modal"
                                 data-bs-target="#verticalyWastecentered">Add Actual Hourly Waste</a>
 
@@ -195,7 +187,7 @@
                                         <td>{{ data[1]}} - {{ data[2] }}</td>
                                         <td>{{ data[3] }}</td>
                                         <td>{{ data[4] }}</td>
-                                        <td><a href="/shift/edit/{{data[0]}}" class="btn btn-secondary"><span
+                                        <td><a href="/hourly_waste/edit/{{data[0]}}" class="btn btn-secondary"><span
                                                     class="bi bi-pencil"></span></a> | <a
                                                 href="/shift/edit/{{data[0] }}" class="btn btn-danger"><span
                                                     class="bi bi-trash"></span></a></td>

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="pagetitle">
+    <h1>Drill and Blast KPI Management</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active">Drill and Blast KPI</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+
+    <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+            <div class="row">
+                <!-- Recent Sales -->
+                <div class="col-12">
+                    <div class="card recent-sales overflow-auto">
+
+                        <div class="card-body">
+                            <h5 class="card-title"> Drill and Blast KPI <span>| KPI </span></h5>
+                            
+                           
+             <!-- Vertical Form -->
+             <form class="row g-3" method="post" action="/drillblast/edit/{{drill[0][0]}}">
+                <div class="col-12">
+                    <label for="blastedVolume" class="form-label">Blasted Volume</label>
+                    <input type="text" class="form-control" value="{{drill[0][1] }}" id="blastedVolume"
+                        name="blastedVolume">
+                </div>
+
+                <div class="col-12">
+                    <label for="numberOfDaysRequired" class="form-label">Number Of Days Required
+                        for Blasted Material to be Depleted </label>
+                    <input type="text" class="form-control" value="{{drill[0][2] }}" id="numberOfDaysRequired"
+                        name="numberOfDaysRequired">
+                </div>
+
+                <div class="col-12">
+                    <label for="actual_volumeMovedPayDay" class="form-label">Actual Volume Moved
+                        in a Day</label>
+                    <input type="number" class="form-control" id="actual_volumeMovedPayDay"
+                        name="actual_volumeMovedPayDay" value="{{drill[0][3] }}">
+                </div>
+
+                <button type="submit" class="btn btn-info text-white">Save changes</button>
+            </form><!-- Vertical Form -->
+
+
+                          
+                        </div>
+
+                    </div>
+                </div><!-- End Recent Sales -->
+
+
+                
+
+            </div>
+        </div><!-- End Left side columns -->
+
+  
+
+
+
+    </div>
+</section>
+
+
+{% endblock %}

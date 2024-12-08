@@ -16,7 +16,7 @@ def get_vehicle_registered(id=None):
             data = cursor.fetchall()
           
     except Exception as e:
-        print(f"Error fetching vehicle data: {e}")
+        return  (f"Error fetching vehicle data: {e}")
     finally:
         if cursor:
             cursor.close()  # Close the cursor
@@ -43,7 +43,7 @@ def get_Shifts(id=None):
             print("single ",data)
             
     except Exception as e:
-        print(f"Error fetching shift data: {e}")
+        return (f"Error fetching shift data: {e}")
     finally:
         if cursor:
             cursor.close()  # Close the cursor
@@ -124,7 +124,7 @@ def get_drillblast(id=None):
             conn.close()   # Close the connection
     return data
 
-# Count Ready Vehicles
+# Count Ready Tiper Vehicles
 def get_maintenance_count_vehicle(status):
       """Fetch vehicle data from the database."""
       data = []
@@ -177,12 +177,12 @@ def insert_vehicle(vehicle_data):
     Insert a new vehicle into the database.
        Args:
         vehicle_data (tuple): A tuple containing (id, make, model, year) for the vehicle.
-    id            | int(10)      | NO   | PRI | NULL    | auto_increment |
-| equipment     | varchar(250) | NO   |     | NULL    |                |
-| model         | varchar(250) | NO   |     | NULL    |                |
-| specification | varchar(250) | NO   |     | NULL    |                |
-| quantity 
-    
+     id            | int(10)      | NO   | PRI | NULL    | auto_increment |
+    | equipment     | varchar(250) | NO   |     | NULL    |                |
+    | model         | varchar(250) | NO   |     | NULL    |                |
+    | specification | varchar(250) | NO   |     | NULL    |                |
+    | quantity 
+        
     """
     conn = None
     try:
@@ -243,7 +243,7 @@ def insert_shift(shift_data,value=0,id=None):
             sql = f"UPDATE  shifts SET Morning = %s, Afternoon = %s, Target = %s ,Total = Target ,modified_at= now() WHERE id='{id}'"
             cursor.execute(sql, shift_data)  # Execute the SQL with the provided data
             conn.commit()  # Commit the transaction
-            return redirect(url_for("shift", msg=f"Shift {shift_data} Updated successfully."))
+            return redirect(url_for("shift", msg=f"Shift Updated successfully."))
     except Exception as e:
         return redirect(url_for("shift",error=f"Error on action Shift {shift_data}: {e}"))
     finally:
@@ -252,8 +252,7 @@ def insert_shift(shift_data,value=0,id=None):
         if conn:
             conn.close()   # Close the connection
             
-         
-# Insert Shift With Value : 0->Insert,1->update
+# Insert hourly ore With Value : 0->Insert,1->update
 def insert_hourly(hourly_data,value=0,id=None):
     """Insert a hourly into the database."""
     conn = None
@@ -268,7 +267,7 @@ def insert_hourly(hourly_data,value=0,id=None):
             cursor.execute(sql, hourly_data)  
             
         conn.commit()  # Commit the transaction
-        return render_template("Actual_Hourly.html",hours=get_hourly(), msg=f"Hourly {hourly_data} Created successfully.")
+        return render_template("Actual_Hourly.html",hours=get_hourly(), msg=f"Hourly  Created successfully.")
     except Exception as e:
         return render_template("Actual_Hourly.html",error=f"Error inserting Hourly {hourly_data}: {e}")
     finally:
@@ -276,8 +275,9 @@ def insert_hourly(hourly_data,value=0,id=None):
             cursor.close()  # Close the cursor
         if conn:
             conn.close()   # Close the connection   
-            
-def insert_hourly_waste(hourly_data):
+
+# Insert hourly waste With Value : 0->Insert,1->update
+def insert_hourly_waste(hourly_data,value=0,id=None):
     """
     Insert a hourly waste into the database.
     
@@ -286,10 +286,15 @@ def insert_hourly_waste(hourly_data):
     try:
         conn = connect_db()  # Assuming `connect_db` is defined elsewhere
         cursor = conn.cursor()
-        sql = "INSERT INTO hourly_waste (actual_hour_from,actual_hour_to, actual_volume, ShiftName,shifID, created_at,modified_at) VALUES (%s, %s, %s,%s,%s,now(),now())"
-        cursor.execute(sql, hourly_data)  # Execute the SQL with the provided data
+        if value==0:
+            sql = "INSERT INTO hourly_waste (actual_hour_from,actual_hour_to, actual_volume, ShiftName,shifID, created_at,modified_at) VALUES (%s, %s, %s,%s,%s,now(),now())"
+            cursor.execute(sql, hourly_data)  # Execute the SQL with the provided data
+        elif value==1:
+            sql = f"UPDATE hourly_waste SET actual_hour_from=%s,actual_hour_to=%s, actual_volume=%s, ShiftName=%s,shifID=%s,modified_at=now() WHERE id='{id}'"
+            cursor.execute(sql, hourly_data)  # Execute the SQL with the provided data
+            
         conn.commit()  # Commit the transaction
-        return render_template("Actual_Hourly.html",hours=get_hourly(), msg=f"Hourly {hourly_data} Created successfully.")
+        return render_template("Actual_Hourly.html",hours=get_hourly(),waste=get_hourly_waste(), msg=f"Hourly Waste Created successfully.")
     except Exception as e:
         return render_template("Actual_Hourly.html",error=f"Error inserting Hourly {hourly_data}: {e}")
     finally:
@@ -298,8 +303,8 @@ def insert_hourly_waste(hourly_data):
         if conn:
             conn.close()   # Close the connection 
             
-
-def insert_blasted_kpi(blastKPI):
+# Insert blasted kpi With Value : 0->Insert,1->update
+def insert_blasted_kpi(blastKPI,value=0,id=None):
     """
     Insert a insert_blasted_kpi  into the database.
     
@@ -308,10 +313,14 @@ def insert_blasted_kpi(blastKPI):
     try:
         conn = connect_db()  # Assuming `connect_db` is defined elsewhere
         cursor = conn.cursor()
-        sql = "INSERT INTO drill_blast (blastedVolume,numberOfDaysRequired, actual_volumeMovedPayDay,created_at,modified_at) VALUES (%s, %s,%s,now(),now())"
-        cursor.execute(sql, blastKPI)  # Execute the SQL with the provided data
+        if value == 0:
+            sql = "INSERT INTO drill_blast (blastedVolume,numberOfDaysRequired, actual_volumeMovedPayDay,created_at,modified_at) VALUES (%s, %s,%s,now(),now())"
+            cursor.execute(sql, blastKPI)  # Execute the SQL with the provided data
+        elif value==1:
+            sql = f"UPDATE drill_blast SET blastedVolume=%s,numberOfDaysRequired=%s, actual_volumeMovedPayDay=%s,modified_at=now() WHERE id='{id}'"
+            cursor.execute(sql, blastKPI)  # Execute the SQL with the provided data
         conn.commit()  # Commit the transaction
-        return render_template("drillblast.html",hours=get_drillblast(), msg=f" drillblast Created successfully.")
+        return render_template("drillblast.html",drill=get_drillblast(), msg=f" drillblast Created successfully.")
     except Exception as e:
         return render_template("drillblast.html",error=f"Error inserting drillblast: {e}")
     finally:

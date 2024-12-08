@@ -1,6 +1,7 @@
 from app import app
 from flask import render_template,request,redirect,url_for
 from dbquery import *
+import datetime
 
 @app.route("/")
 def dashboard():
@@ -124,6 +125,27 @@ def edit_hourly_update(id):
             return insert_hourly(hourly,1,id=id)
         except Exception as e:
             return render_template("Actual_Hourly.html", error=f"Error Processing this formX: {e}")
+
+#Edit hourly /hourly/edit/{{data[0] }}
+@app.route("/hourly_waste/edit/<int:id>")
+def edit_hourly_waste(id):
+    print(f"hourly {get_hourly_waste(id)[0][1]}")
+    return render_template("edit_hourly_waste.html", _edit=get_hourly_waste(id),shift=get_Shifts())
+           
+@app.route("/hourly_waste/edit/<int:id>",methods=["POST","GET"])
+def edit_hourly_waste_update(id):
+        try:
+            actualHourfrom = request.form["actualHourfrom"]
+            actualHourto = request.form["actualHourto"]
+            actual_volume = request.form["actual_volume"]
+            shift = request.form["shift"]
+            shiftID = shift.split(",")[0]
+            shiftName = shift.split(",")[1]
+            
+            hourly_waste = (actualHourfrom,actualHourto,actual_volume,shiftName,shiftID)
+            return insert_hourly_waste(hourly_waste,1,id=id)
+        except Exception as e:
+            return render_template("Actual_Hourly.html", error=f"Error Processing this formX: {e}")
            
 
 @app.route("/waste",methods=["POST","GET"])
@@ -156,6 +178,25 @@ def drill_blast():
                 
                 kpi = (blastedVolume,numberOfDaysRequired,actual_volumeMovedPayDay)
                 return insert_blasted_kpi(kpi)
+            except Exception as e:
+                return render_template("drillblast.html", error=f"Error Processing this formX: {e}")
+        else:
+           return render_template("drIllblast.html", drill=get_drillblast())
+    
+@app.route("/drillblast/edit/<int:id>")
+def edit_drill_blast(id):
+           return render_template("edit_drIllblast.html", drill=get_drillblast(id))
+   
+   
+@app.route("/drillblast/edit/<int:id>",methods=["POST","GET"])
+def update_drill_blast(id):
+        if request.method == 'POST':
+            try:
+                blastedVolume = request.form["blastedVolume"]
+                numberOfDaysRequired = request.form["numberOfDaysRequired"]
+                actual_volumeMovedPayDay = request.form["actual_volumeMovedPayDay"]
+                kpi = (blastedVolume,numberOfDaysRequired,actual_volumeMovedPayDay)
+                return insert_blasted_kpi(kpi,value=1,id=id)
             except Exception as e:
                 return render_template("drillblast.html", error=f"Error Processing this formX: {e}")
         else:
