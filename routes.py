@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template,request,redirect,url_for
+from flask import render_template,request,redirect,url_for,session
 from dbquery import *
 import datetime
 
@@ -227,9 +227,49 @@ def planed_inputs():
    return render_template("inputData.html")
 
 
-@app.route("/login")
+@app.route("/login",methods=["GET","POST"])
 def login():
-    return render_template("login.html")
+    if request.method == "POST":
+        import hashlib
+        username = request.form["username"]
+        password = request.form["password"]
+        auth = (username,hashlib.md5(password.encode('utf-8')).hexdigest())
+        conn = None
+       
+        try:
+            data = []
+            conn = connect_db()  # Assuming `connect_db` is defined elsewhere
+            cursor = conn.cursor()
+            sql = "SELECT*FROM users WHERE username=%s AND password=%s"
+            cursor.execute(sql,auth)  # Execute the SQL with the provided data
+            data = cursor.fetchone() 
+            
+            if data:
+                session["loggedin"] =  True
+                session["id"] = data[0]
+                session["fullname"] = data[1]
+                session["role"] = data[2]
+                session["username"] = data[3]
+                return render_template("index.html",msg = 'Logged in successfully!',waste = get_hourly_waste(),hours =get_hourly(),maintenance=get_maintenance_vehicle(), shift=get_Shifts(),data=v_status())
+            else:
+                return render_template("login.html",msg = 'Incorrect username/password!')
+        except Exception as e:
+            return render_template("login.html",msg =f"Error: {e} ")
+
+        finally:
+            if cursor:
+                cursor.close()  # Close the cursor
+            if conn:
+                conn.close()   # Close the connection
+            
+    else: 
+       return render_template("login.html")
+
+@app.route('/logout')
+def logout():
+    session.pop('loggedin', None)
+    session.pop('userdata', None)
+    return redirect(url_for('login'))
 
 
 @app.route("/user/register")
