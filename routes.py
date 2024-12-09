@@ -5,35 +5,46 @@ import datetime
 
 @app.route("/")
 def dashboard():
-    return render_template("index.html",waste = get_hourly_waste(),hours =get_hourly(),maintenance=get_maintenance_vehicle(), shift=get_Shifts(),data=v_status())
-
+    if session:
+        return render_template("index.html",waste = get_hourly_waste(),hours =get_hourly(),maintenance=get_maintenance_vehicle(), shift=get_Shifts(),data=v_status())
+    else:
+        return render_template("login.html",msg="Please Login!!")
 
 
 # Display infomation about saved/stored vehicles
 @app.route("/vehicle")
 def vehicle():
-    print(get_vehicle_registered())
-    return render_template("vehicle.html",data=v_status(),vih=get_vehicle_registered())
+     if session:
+        print(get_vehicle_registered())
+        return render_template("vehicle.html",data=v_status(),vih=get_vehicle_registered())
+     else:
+        return render_template("login.html",msg="Please Login!!")
 
 # Maintenance Tracker
 @app.route("/maintenance")
 def maintenance():
-    return render_template("maintenanceTracker.html",data=v_status(),vih=get_vehicle_registered(),maintenance=get_maintenance_vehicle())
+    if session:
+        return render_template("maintenanceTracker.html",data=v_status(),vih=get_vehicle_registered(),maintenance=get_maintenance_vehicle())
+    else:
+        return render_template("login.html",msg="Please Login!!")
 
 
 
 # Post Route, sending data to the database
 @app.route("/vehicle",methods=['POST','GET'])
 def add_vehicle():
-    try:
-        equip = request.form["equip"]
-        model = request.form["model"]
-        spc = request.form["spc"]
-        quty = request.form["quty"]
-        vr = (equip,model,spc,quty)
-        return insert_vehicle(vr)
-    except Exception as e:
-        return f"Error Processing this form: {e}"
+    if session:
+        try:
+            equip = request.form["equip"]
+            model = request.form["model"]
+            spc = request.form["spc"]
+            quty = request.form["quty"]
+            vr = (equip,model,spc,quty)
+            return insert_vehicle(vr)
+        except Exception as e:
+            return f"Error Processing this form: {e}"
+    else:
+        return render_template("login.html",msg="Please Login!!")
 
 # /vehicle/edit/{{data[0]}}
 @app.route("/vehicle/edit/<int:id>")
@@ -294,6 +305,11 @@ def save_users():
 @app.route("/user")
 def users():
     return render_template("users.html",user=get_users())
+
+
+@app.route("/users/profile")
+def users_profile():
+    return render_template("myprofile.html",user=get_users())
 
 
 @app.route("/json")
