@@ -1,12 +1,32 @@
 from app import app
 from flask import render_template,request,redirect,url_for,session
 from dbquery import *
-import datetime
+
+import folium
 
 @app.route("/")
 def dashboard():
     if session:
-        return render_template("index.html",waste = get_hourly_waste(),hours =get_hourly(),maintenance=get_maintenance_vehicle(), shift=get_Shifts(),data=v_status())
+        """Embed a map as an iframe on a page."""
+        m = folium.Map([-15.583333, 28.283333], zoom_start=12)
+
+        # set the iframe width and height
+        m.get_root().width = "1000px"
+        m.get_root().height = "450px"
+        group_1 = folium.FeatureGroup("first group").add_to(m)
+        folium.Marker((-15.583333, 28.2100000), icon=folium.Icon("red")).add_to(group_1)
+        folium.Marker((-15.553300, 28.2100000), icon=folium.Icon("red")).add_to(group_1)
+        
+        # Mine Location
+        folium.CircleMarker(
+                location=[-15.583333, 28.283333],
+                radius=450,
+                fill=True,
+                popup=folium.Popup("The Pit"),
+            ).add_to(m)
+        
+        iframe = m.get_root()._repr_html_()
+        return render_template("index.html",iframe=iframe,waste = get_hourly_waste(),hours =get_hourly(),maintenance=get_maintenance_vehicle(), shift=get_Shifts(),data=v_status())
     else:
         return render_template("login.html",msg="Please Login!!")
 
